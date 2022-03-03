@@ -1,15 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    todoList: []
+    todoList: JSON.parse(   window.localStorage.getItem("todo"))
 }
+const setPersist = (todos) => window.localStorage.setItem("todo", JSON.stringify(todos));
 
 const todoSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
       saveTodo: (state,action) => {
-          state.todoList.push(action.payload)
+          const todo = state.todoList.push(action.payload);
+          setPersist(state.todoList)
+        //   window.localStorage.setItem("todo", JSON.stringify(todo));
+          return { ...state, todos: todo? todo : ''}
       },
 
       setCheck: (state,action) => {
